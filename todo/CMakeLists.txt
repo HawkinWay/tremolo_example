@@ -51,6 +51,9 @@ cpmaddpackage(
     ${LIB_DIR}/juce
 )
 
+# Use local JUCE
+# add_subdirectory("/Users/whq2006/Desktop/JUCE")
+
 # Adds compiler warning utilities & other.
 include(cmake/CompilerWarnings.cmake)
 
@@ -61,19 +64,19 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 # Adds a plugin target.
-set(TREMOLO_PLUGIN_NAME "TODO: set your plugin name")
+set(TREMOLO_PLUGIN_NAME "HurriTremolo")
 juce_add_plugin(
   TremoloCoursePlugin
   PRODUCT_NAME
     ${TREMOLO_PLUGIN_NAME}
   VERSION
-    # TODO: add version
+    0.0.0
   COMPANY_NAME
-    # TODO: add company
+    "HurriWay"
   PLUGIN_MANUFACTURER_CODE
-    # TODO: add plugin manufacturer code
+    Hrwy
   PLUGIN_CODE
-    # TODO: add plugin code
+    Hrtm
   FORMATS
     Standalone
     AU
