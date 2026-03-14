@@ -19,8 +19,23 @@ namespace tremolo {
       processor.addParameter(parameter.release());
       return parameterReference;
     }
+
+    juce::AudioParameterFloat* createGainParameter(juce::AudioProcessor& processor) {
+      constexpr auto versionHint = 1;
+      auto parameter = new juce::AudioParameterFloat(
+        juce::ParameterID{"gain", versionHint},
+        "Gain",
+        juce::NormalisableRange<float>{-12.f,12.f,0.1f},
+        0.f,
+        juce::AudioParameterFloatAttributes{}.withLabel("dB")
+        );
+      //auto& parameterReference = *parameter;
+      processor.addParameter(parameter);
+      return parameter;
+    }
   }
-Parameters::Parameters(juce::AudioProcessor& processor) : rate{creatModulationRateParameter((processor))}
+Parameters::Parameters(juce::AudioProcessor& processor) : rate{creatModulationRateParameter((processor))},
+  gain{createGainParameter(processor)}
 // TODO: create parameters
 // TODO: retrieve references to parameters
 // TODO: add parameters to the processor

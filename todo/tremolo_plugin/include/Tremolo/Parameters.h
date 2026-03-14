@@ -6,6 +6,8 @@ struct Parameters {
                     //juce::AudioProcessor&: name can be omitted in function declarations
   juce::AudioParameterFloat &rate;
 
+  juce::AudioParameterFloat *gain;
+
   JUCE_DECLARE_NON_COPYABLE(Parameters)
   JUCE_DECLARE_NON_MOVEABLE(Parameters)
 
