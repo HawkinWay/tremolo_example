@@ -1,3 +1,4 @@
+# set(CMAKE_EXPORT_COMPILE_COMMANDS_ON)
 # Mandatory line, sets the minimum version of CMake that should be used with this repository.
 # 3.22 is the minimum CMake version required by JUCE.
 # 3.25 is required for the MSVC_DEBUG_INFORMATION_FORMAT feature to work.

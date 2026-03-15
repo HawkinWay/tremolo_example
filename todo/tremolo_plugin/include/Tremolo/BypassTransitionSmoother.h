@@ -55,7 +55,7 @@ namespace tremolo {
  */
 class BypassTransitionSmoother {
 public:
-  explicit BypassTransitionSmoother(double crossfadeLengthSecondsValue = 0.01)
+  explicit BypassTransitionSmoother(double crossfadeLengthSecondsValue = 0.01)    //0.01s
       : crossfadeLengthSeconds{crossfadeLengthSecondsValue} {
     jassert(0.0 < crossfadeLengthSeconds);
   }
