@@ -13,7 +13,7 @@ TEST(JsonSerializer, SerializeToString) {
   const juce::String expectedOutput =
       u8R"({
   "__version__": 1,
-  "pluginName": "Tremolo",
+  "pluginName": "HurriTremolo",
   "modulationRateHz": 10.0,
   "bypassed": true,
   "modulationWaveform": "Triangle"
@@ -33,7 +33,7 @@ TEST(JsonSerializer, DeserializeFromString) {
   const juce::String savedParameters =
       u8R"({
   "__version__": 1,
-  "pluginName": "Tremolo",
+  "pluginName": "HurriTremolo",
   "modulationRateHz": 10.0,
   "bypassed": true,
   "modulationWaveform": "Triangle"
@@ -60,7 +60,7 @@ TEST(JsonSerializer, DontUpdateParametersWhenWaveformNameIsInvalid) {
   const juce::String savedParameters =
       u8R"({
   "__version__": 1,
-  "pluginName": "Tremolo",
+  "pluginName": "HurriTremolo",
   "modulationRateHz": 10.0,
   "bypassed": true,
   "modulationWaveform": "Foo"
