@@ -6,7 +6,7 @@ struct Parameters {
                     //juce::AudioProcessor&: name can be omitted in function declarations
   juce::AudioParameterFloat& rate;
 
-  juce::AudioParameterFloat* gain;
+  juce::AudioParameterFloat& gain;
 
   juce::AudioParameterBool& bypassed;
 
