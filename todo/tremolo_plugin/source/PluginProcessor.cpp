@@ -55,6 +55,8 @@ void PluginProcessor::prepareToPlay(double sampleRate,
                                     int expectedMaxFramesPerBlock) {
   // Use this method as the place to do any pre-playback
   // initialization that you need, e.g., allocate memory.
+  smoothGain.reset(sampleRate, 0.02);
+  smoothGain.setCurrentAndTargetValue(juce::Decibels::decibelsToGain(parameters.gain.get()));
 
   tremolo.prepare(sampleRate, expectedMaxFramesPerBlock);
 
@@ -73,6 +75,7 @@ void PluginProcessor::releaseResources() {
 
   tremolo.reset();
   bypassTransitionSmoother.reset();
+  smoothGain.setCurrentAndTargetValue(juce::Decibels::decibelsToGain(parameters.gain.get()));
 }
 
 bool PluginProcessor::isBusesLayoutSupported(const BusesLayout& layouts) const {
@@ -101,6 +104,16 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
   const auto totalNumInputChannels = getTotalNumInputChannels();
   const auto totalNumOutputChannels = getTotalNumOutputChannels();
 
+  smoothGain.setTargetValue(juce::Decibels::decibelsToGain(parameters.gain.get()));
+  bypassTransitionSmoother.setDryBuffer(buffer);
+
+  for (const auto frameIndex : std::views::iota(0, buffer.getNumSamples())) {
+    const auto nxtGain = smoothGain.getNextValue();
+    for (const auto channelIndex : std::views::iota(0,buffer.getNumChannels())) {
+        buffer.setSample(channelIndex, frameIndex, buffer.getSample(channelIndex, frameIndex) * nxtGain);
+    }
+  }
+
   // In case we have more outputs than inputs, this code clears any output
   // channels that didn't contain input data, (because these aren't
   // guaranteed to be empty - they may contain garbage).
@@ -115,9 +128,11 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
   // update parameters
   tremolo.setModulationRate((parameters.rate.get()));
   bypassTransitionSmoother.setBypass(parameters.bypassed.get());
+
   tremolo.setLfoWaveform(static_cast<Tremolo::LfoWaveform>(parameters.waveform.getIndex()));
   //buffer.applyGain(juce::Decibels::decibelsToGain(parameters.gain->get()));
-  buffer.applyGain(juce::Decibels::decibelsToGain(parameters.gain.get()));
+  //buffer.applyGain(juce::Decibels::decibelsToGain(parameters.gain.get()));
+
 
   // check for bypass
   if (parameters.bypassed.get() && !bypassTransitionSmoother.isTransitioning()) {
