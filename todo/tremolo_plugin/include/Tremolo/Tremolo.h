@@ -24,6 +24,8 @@ public:
     for (auto &lfo : lfos) {
       lfo.prepare(processSpec);
     }
+    smoothWaveform.reset(sampleRate, 0.02);     //20ms
+    smoothWaveform.setCurrentAndTargetValue(0.f);
   }
 
   void setLfoWaveform(LfoWaveform waveform) {
@@ -83,6 +85,12 @@ private:
   void updateLfoWaveform() {
     if (currentLfo != lfoToSet) {
       currentLfo = lfoToSet;
+      if (currentLfo == LfoWaveform::sine) {
+        smoothWaveform.setTargetValue(0.f);
+      }
+      else {
+        smoothWaveform.setTargetValue(1.f);
+      }
     }
   }
 
@@ -90,7 +98,16 @@ private:
   LfoWaveform lfoToSet = currentLfo;
 
   float getNextLfoValue() {
-    return lfos[juce::toUnderlyingType(currentLfo)].processSample(0.f);
+    const auto sineValue = lfos[0].processSample(0.f);
+    const auto triangleValue = lfos[1].processSample(0.f);
+
+    const auto waveformMix = smoothWaveform.getNextValue();
+
+    //return lfos[juce::toUnderlyingType(currentLfo)].processSample(0.f);
+    return ((1.f - waveformMix) * sineValue) + ( waveformMix * triangleValue) ;
   }
+
+  // Stretch Assignment 3.01. Implement smoothing when switching the LFO waveform
+  juce::SmoothedValue<float> smoothWaveform;
 };
 }  // namespace tremolo
