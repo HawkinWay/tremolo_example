@@ -106,7 +106,7 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
 
   smoothGain.setTargetValue(juce::Decibels::decibelsToGain(parameters.gain.get()));
   bypassTransitionSmoother.setDryBuffer(buffer);
-
+  // use frame-wise to smooth gain
   for (const auto frameIndex : std::views::iota(0, buffer.getNumSamples())) {
     const auto nxtGain = smoothGain.getNextValue();
     for (const auto channelIndex : std::views::iota(0,buffer.getNumChannels())) {
@@ -126,7 +126,9 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
   }
 
   // update parameters
-  tremolo.setModulationRate((parameters.rate.get()));
+  tremolo.setModulationRate(parameters.rate.get());
+  tremolo.setModulationDepth(parameters.modulationDepth.get());
+
   bypassTransitionSmoother.setBypass(parameters.bypassed.get());
 
   tremolo.setLfoWaveform(static_cast<Tremolo::LfoWaveform>(parameters.waveform.getIndex()));

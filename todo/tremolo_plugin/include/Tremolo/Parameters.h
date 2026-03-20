@@ -8,6 +8,8 @@ struct Parameters {
 
   juce::AudioParameterFloat& gain;
 
+  juce::AudioParameterFloat& modulationDepth;
+
   juce::AudioParameterBool& bypassed;
 
   juce::AudioParameterChoice& waveform;

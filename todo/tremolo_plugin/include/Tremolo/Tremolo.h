@@ -26,6 +26,9 @@ public:
     }
     smoothWaveform.reset(sampleRate, 0.02);     //20ms
     smoothWaveform.setCurrentAndTargetValue(0.f);
+
+    smoothModulationDepth.reset(sampleRate, 0.02);
+    smoothModulationDepth.setCurrentAndTargetValue(modulationDepth);
   }
 
   void setLfoWaveform(LfoWaveform waveform) {
@@ -39,6 +42,11 @@ public:
     }
   }
 
+  void setModulationDepth(float depth) {
+    modulationDepth = juce::jlimit(0.f,1.f,depth);
+    smoothModulationDepth.setTargetValue(modulationDepth);
+  }
+
   void process(juce::AudioBuffer<float>& buffer) noexcept {
     // for each frame
     updateLfoWaveform();
@@ -47,8 +55,9 @@ public:
       const auto lfoValue = getNextLfoValue();
 
       // calculate the modulation value
-      constexpr auto modulationDepth = 0.4f;
-      const auto modulationValue = modulationDepth * lfoValue + 1.f;
+      // constexpr auto modulationDepth = 0.4f;
+      const auto modulationDepthValue = smoothModulationDepth.getNextValue();
+      const auto modulationValue = (modulationDepthValue * lfoValue) + 1.f;
 
       // for each channel sample in the frame
       for (const auto channelIndex : std::views::iota(0, buffer.getNumChannels())) {
@@ -109,5 +118,10 @@ private:
 
   // Stretch Assignment 3.01. Implement smoothing when switching the LFO waveform
   juce::SmoothedValue<float> smoothWaveform;
+
+  // Stretch Assignment 4.03. Implement a modulation depth parameter
+  float modulationDepth = 0.4f;
+  juce::SmoothedValue<float> smoothModulationDepth;
+
 };
 }  // namespace tremolo

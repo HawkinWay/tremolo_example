@@ -47,6 +47,17 @@ namespace tremolo {
       return addParameterToProcessor(processor, std::move(parameter));
     }
 
+    juce::AudioParameterFloat& createModulationDepthParameter(juce::AudioProcessor& processor) {
+      constexpr auto versionHint = 1;
+      auto parameter = std::make_unique<juce::AudioParameterFloat>(
+        juce::ParameterID{"modulation.depth", versionHint},
+        "modulation depth",
+        juce::NormalisableRange<float>{0.f, 1.f, 0.1f},
+        0.4f
+        );
+      return addParameterToProcessor(processor, std::move(parameter));
+    }
+
     juce::AudioParameterBool& createBypassedParameter(juce::AudioProcessor& processor) {
       constexpr auto versionHint = 1;
       auto parameter = std::make_unique<juce::AudioParameterBool>(
@@ -70,7 +81,7 @@ namespace tremolo {
   }
 
   Parameters::Parameters(juce::AudioProcessor& processor) : rate{creatModulationRateParameter((processor))},
-  gain{createGainParameter(processor)}, bypassed{createBypassedParameter(processor)}, waveform{createWaveformParameter(processor)}
+  gain{createGainParameter(processor)}, modulationDepth{createModulationDepthParameter(processor)}, bypassed{createBypassedParameter(processor)}, waveform{createWaveformParameter(processor)}
   // create parameters
   // retrieve references to parameters
   // add parameters to the processor

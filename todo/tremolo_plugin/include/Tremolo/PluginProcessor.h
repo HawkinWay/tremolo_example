@@ -44,7 +44,9 @@ private:
   Parameters parameters{*this};
 
   BypassTransitionSmoother bypassTransitionSmoother;
+
   juce::SmoothedValue<float,juce::ValueSmoothingTypes::Multiplicative> smoothGain;
+  juce::SmoothedValue<float> smoothModulationDepth;
 
   Tremolo tremolo;
 
