@@ -10,6 +10,8 @@ public:
     g.fillRect(rect1);
     g.setColour(juce::Colours::blue);
     g.fillRect(rect2);
+    // g.setColour(juce::Colours::white);
+    // g.fillEllipse(150.f, 150.f, 100.f, 100.f);
   }
 
   void resized() override {

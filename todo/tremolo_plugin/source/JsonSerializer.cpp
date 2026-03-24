@@ -26,7 +26,8 @@ namespace {
                 named("gain", t.gain),
                 named("modulationDepth", t.modulationDepth),
                 named("bypassed", t.bypassed),
-                named("modulationWaveform", t.waveform));
+                named("modulationWaveform", t.waveform)
+            );
         }
     };
 
@@ -64,7 +65,7 @@ void JsonSerializer::serialize(const Parameters& parameters,
 
 juce::Result JsonSerializer::deserialize(juce::InputStream& input,
                                          Parameters& parameters) {
-  juce::ignoreUnused(input, parameters);
+  // juce::ignoreUnused(input, parameters);
 
   // deserialize parameters from the JSON input stream
     juce::var parsedResult;
