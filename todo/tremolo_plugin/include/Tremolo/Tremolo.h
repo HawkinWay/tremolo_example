@@ -79,12 +79,13 @@ public:
     }
   }
 
-private:
-  // You should put class members and private functions here
   static float triangle(float phase) {
     const auto ft = phase / juce::MathConstants<float>::twoPi;
     return 4.f * std::abs(ft - std::floor(ft + 0.5f)) - 1.f;
   }
+
+private:
+  // You should put class members and private functions here
 
   std::array<juce::dsp::Oscillator<float>, 2u> lfos{
     juce::dsp::Oscillator<float>{ [](auto phase){ return std::sin(phase); }},
