@@ -54,6 +54,10 @@ public:
         }
     }
 
+    void setStrokeWidth(float strokeWidth) {
+        this->strokeWidth = strokeWidth;
+    }
+
 private:
     juce::Path sine;
     juce::Path triangle;

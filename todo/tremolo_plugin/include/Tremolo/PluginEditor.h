@@ -15,6 +15,8 @@ private:
   // juce::ImageComponent logo3;
 
   juce::Slider rateSlider;
+  // Stretch Assignment 5.02. Add a slider to control the width of the LFO curve
+  juce::Slider lfoCurveWidthSlider;
   LfoVisualizer lfoVisualizer;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PluginEditor)
