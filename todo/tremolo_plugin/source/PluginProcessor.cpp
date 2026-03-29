@@ -125,6 +125,8 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
     buffer.clear(channelToClear, 0, buffer.getNumSamples());
   }
 
+  DBG(parameters.rate.get());
+
   // update parameters
   tremolo.setModulationRate(parameters.rate.get());
   tremolo.setModulationDepth(parameters.modulationDepth.get());
