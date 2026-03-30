@@ -4,7 +4,7 @@ namespace tremolo {
 class PluginEditor : public juce::AudioProcessorEditor {
 public:
   explicit PluginEditor(PluginProcessor&);
-
+  ~PluginEditor() override;
   void resized() override;
 
 private:
@@ -29,14 +29,21 @@ private:
   // juce::ImageComponent logo2;
   // juce::ImageComponent logo3;
 
+  //RateSlider rateSlider;
   juce::Slider rateSlider;
   juce::SliderParameterAttachment rateAttachment;
+
+  juce::ToggleButton bypassButton{"Bypassed"};
+  juce::ButtonParameterAttachment bypassAttachment;
+
   // Stretch Assignment 5.03. Add a modulation depth slider
   juce::Slider depthSlider;
   juce::SliderParameterAttachment depthAttachment;
   // Stretch Assignment 5.02. Add a slider to control the width of the LFO curve
   juce::Slider lfoCurveWidthSlider;
   LfoVisualizer lfoVisualizer;
+
+  CustomLookAndFeel lookAndFeel;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PluginEditor)
 };

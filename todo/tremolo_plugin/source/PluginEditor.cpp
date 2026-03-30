@@ -2,7 +2,8 @@ namespace tremolo {
 PluginEditor::PluginEditor(PluginProcessor& p) :
   AudioProcessorEditor(&p),
   rateAttachment{p.getParameterRefs().rate, rateSlider},
-  depthAttachment{p.getParameterRefs().modulationDepth, depthSlider}{
+  depthAttachment{p.getParameterRefs().modulationDepth, depthSlider},
+  bypassAttachment{p.getParameterRefs().bypassed, bypassButton}{
   background.setImage(juce::ImageCache::getFromMemory(assets::Background_png, assets::Background_pngSize));
 
   logo.setImage(juce::ImageCache::getFromMemory(assets::Logo_png, assets::Logo_pngSize));
@@ -25,6 +26,13 @@ PluginEditor::PluginEditor(PluginProcessor& p) :
   rateSlider.setTextValueSuffix("Hz");
   addAndMakeVisible(rateSlider);
 
+
+  bypassButton.onClick = [this]() {
+    bypassButton.setButtonText(bypassButton.getToggleState() ? "Bypassed" : "OFF");
+  };
+  bypassButton.onClick();
+  addAndMakeVisible(bypassButton);
+
     depthSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
     depthSlider.setTextBoxStyle(juce::Slider::NoTextBox, false,0,0);
     depthSlider.setPopupDisplayEnabled(true, true, this);
@@ -39,9 +47,15 @@ PluginEditor::PluginEditor(PluginProcessor& p) :
 
   addAndMakeVisible(lfoVisualizer);
 
+  setLookAndFeel(&lookAndFeel);
+
   // Make sure that before the constructor has finished, you've set the
   // editor's size to whatever you need it to be.
   setSize(540, 300);
+}
+
+PluginEditor::~PluginEditor() {
+  setLookAndFeel(nullptr);
 }
 
 void PluginEditor::resized() {
@@ -65,9 +79,16 @@ void PluginEditor::resized() {
   rateSliderBounds.removeFromBottom(150);
   rateSlider.setBounds(rateSliderBounds);
 
+  auto bypassButtonBounds = bounds;
+  bypassButtonBounds.removeFromLeft(392);
+  bypassButtonBounds.removeFromRight(16);
+  bypassButtonBounds.removeFromTop(76);
+  bypassButtonBounds.removeFromBottom(196);
+  bypassButton.setBounds(bypassButtonBounds);
+
     auto depthSliderBounds = bounds;
-    depthSliderBounds.removeFromLeft(320);
-    depthSliderBounds.removeFromRight(140);
+    depthSliderBounds.removeFromLeft(140);
+    depthSliderBounds.removeFromRight(320);
     depthSliderBounds.removeFromTop(40);
     depthSliderBounds.removeFromBottom(150);
     depthSlider.setBounds(depthSliderBounds);
