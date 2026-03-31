@@ -39,6 +39,10 @@ namespace tremolo {
                 g.setColour(juce::Colour{0xFFDDECFF});
             }
         }
+        const auto outlineBounds = button.getLocalBounds().reduced(2);
+      //g.setColour(juce::Colour{0xFF042D4E});
+        g.setColour(juce::Colour{0xFF000000});
+        g.drawRoundedRectangle(outlineBounds.toFloat(),4.f,2.f);
         g.drawText(button.getButtonText(),bounds,juce::Justification::centred, true);
     }
 
