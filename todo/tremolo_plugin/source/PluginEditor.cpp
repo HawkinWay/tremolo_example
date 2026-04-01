@@ -1,6 +1,7 @@
 namespace tremolo {
 PluginEditor::PluginEditor(PluginProcessor& p) :
   AudioProcessorEditor(&p),
+  waveformAttachment{p.getParameterRefs().waveform, waveformComboBox},
   rateAttachment{p.getParameterRefs().rate, rateSlider},
   depthAttachment{p.getParameterRefs().modulationDepth, depthSlider},
   bypassAttachment{p.getParameterRefs().bypassed, bypassButton}{
@@ -18,6 +19,15 @@ PluginEditor::PluginEditor(PluginProcessor& p) :
   /* addAndMakeVisible(logo2);
      addAndMakeVisible(logo3);*/
 
+  addAndMakeVisible(waveformLabel);
+
+  waveformComboBox.addItemList(p.getParameterRefs().waveform.choices, 1);
+  waveformAttachment.sendInitialUpdate();
+  addAndMakeVisible(waveformComboBox);
+
+  rateLabel.setInterceptsMouseClicks(false,false);
+  addAndMakeVisible(rateLabel);
+
   rateSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
   rateSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0 ,0);
   rateSlider.setPopupDisplayEnabled(true, true, this);
@@ -27,16 +37,23 @@ PluginEditor::PluginEditor(PluginProcessor& p) :
   addAndMakeVisible(rateSlider);
 
 
+  addAndMakeVisible(bypassLabel);
+
   bypassButton.onClick = [this]() {
     bypassButton.setButtonText(bypassButton.getToggleState() ? "Bypassed" : "OFF");
   };
   bypassButton.onClick();
   addAndMakeVisible(bypassButton);
 
+    depthLabel.setInterceptsMouseClicks(false,false);
+    addAndMakeVisible(depthLabel);
+
     depthSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
     depthSlider.setTextBoxStyle(juce::Slider::NoTextBox, false,0,0);
     depthSlider.setPopupDisplayEnabled(true, true, this);
     addAndMakeVisible(depthSlider);
+
+  addAndMakeVisible(widthLabel);
 
   lfoCurveWidthSlider.setRange(0,10,1);
   lfoCurveWidthSlider.onValueChange = [this]() {
@@ -73,27 +90,53 @@ void PluginEditor::resized() {
      logo3.setBounds({419,16,105,24}); */
 
   auto rateSliderBounds = bounds;
-  rateSliderBounds.removeFromLeft(230);
-  rateSliderBounds.removeFromRight(230);
+  rateSliderBounds.removeFromLeft(180);
+  rateSliderBounds.removeFromRight(280);
   rateSliderBounds.removeFromTop(40);
   rateSliderBounds.removeFromBottom(150);
   rateSlider.setBounds(rateSliderBounds);
 
+  rateLabel.setJustificationType(juce::Justification::centred);
+  rateLabel.setBounds(rateSliderBounds);
+
   auto bypassButtonBounds = bounds;
   bypassButtonBounds.removeFromLeft(392);
   bypassButtonBounds.removeFromRight(16);
-  bypassButtonBounds.removeFromTop(76);
-  bypassButtonBounds.removeFromBottom(196);
+  bypassButtonBounds.removeFromTop(81);
+  bypassButtonBounds.removeFromBottom(191);
   bypassButton.setBounds(bypassButtonBounds);
 
+  const auto bypassLabelBounds = bypassButtonBounds.translated(
+                                             0,-bypassButtonBounds.getHeight());
+  bypassLabel.setBounds(bypassLabelBounds);
+
     auto depthSliderBounds = bounds;
-    depthSliderBounds.removeFromLeft(140);
-    depthSliderBounds.removeFromRight(320);
+    depthSliderBounds.removeFromLeft(280);
+    depthSliderBounds.removeFromRight(180);
     depthSliderBounds.removeFromTop(40);
     depthSliderBounds.removeFromBottom(150);
     depthSlider.setBounds(depthSliderBounds);
 
-  lfoCurveWidthSlider.setBounds({0, 270, 270, 30});
+    depthLabel.setJustificationType(juce::Justification::centred);
+    depthLabel.setBounds(depthSliderBounds);
+
+
+  auto waveformComboBoxBounds = bounds;
+  waveformComboBoxBounds.removeFromTop(81);
+  waveformComboBoxBounds.removeFromBottom(191);
+  waveformComboBoxBounds.removeFromLeft(16);
+  waveformComboBoxBounds.removeFromRight(392);
+  waveformComboBox.setBounds(waveformComboBoxBounds);
+
+  const auto waveformLabelBounds = waveformComboBoxBounds.translated(
+                                              0,-waveformComboBoxBounds.getHeight());
+  waveformLabel.setBounds(waveformLabelBounds);
+
+  auto lfoWidthBounds = juce::Rectangle<int>{0, 270, 270, 30};
+  lfoCurveWidthSlider.setBounds(lfoWidthBounds);
+  const auto widthLabelBounds = lfoWidthBounds.translated(
+                                              lfoCurveWidthSlider.getWidth(),0);
+  widthLabel.setBounds(widthLabelBounds);
 
   lfoVisualizer.setBounds({18,149,504,92});
 }

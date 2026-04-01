@@ -29,18 +29,27 @@ private:
   // juce::ImageComponent logo2;
   // juce::ImageComponent logo3;
 
+  juce::Label waveformLabel{"waveform label","WAVEFROM"};
+  juce::ComboBox waveformComboBox;
+  juce::ComboBoxParameterAttachment waveformAttachment;
+
   //RateSlider rateSlider;
+  juce::Label rateLabel{"rate label","RATE"};
   juce::Slider rateSlider;
   juce::SliderParameterAttachment rateAttachment;
 
+  juce::Label bypassLabel{"bypass label","BYPASS"};
   juce::ToggleButton bypassButton{"Bypassed"};
   juce::ButtonParameterAttachment bypassAttachment;
 
   // Stretch Assignment 5.03. Add a modulation depth slider
+  juce::Label depthLabel{"depth label","DEPTH"};
   juce::Slider depthSlider;
   juce::SliderParameterAttachment depthAttachment;
   // Stretch Assignment 5.02. Add a slider to control the width of the LFO curve
+  juce::Label  widthLabel{"width label","LINE WIDTH"};
   juce::Slider lfoCurveWidthSlider;
+
   LfoVisualizer lfoVisualizer;
 
   CustomLookAndFeel lookAndFeel;
