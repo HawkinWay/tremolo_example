@@ -54,7 +54,7 @@ namespace tremolo {
     }
 
     juce::FontOptions CustomLookAndFeel::SairaStencilMedium(){
-            static const auto result = juce::Typeface::createSystemTypefaceFor(assets::SairaStencil_CondensedMedium_ttf, assets::SairaStencil_CondensedMedium_ttfSize);
+            static const auto result = juce::Typeface::createSystemTypefaceFor(assets::SairaStencil_ExpandedMedium_ttf, assets::SairaStencil_ExpandedMedium_ttfSize);
             return juce::FontOptions{result};
     }
 

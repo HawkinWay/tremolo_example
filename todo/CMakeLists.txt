@@ -112,6 +112,7 @@ juce_add_binary_data(tremolo_plugin_assets
     assets/Logo.png
     # TODO: Add custom font files
     assets/SairaStencil_Condensed-Medium.ttf
+    assets/SairaStencil_Expanded-Medium.ttf
 )
 
 add_library(tremolo::tremolo_plugin_assets ALIAS tremolo_plugin_assets)
