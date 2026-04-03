@@ -7,5 +7,11 @@ public:
                           juce::ToggleButton &,
                           bool shouldDrawButtonAsHighlighted,
                           bool shouldDrawButtonAsDown) override;
+    
+    static juce::FontOptions getSideLabelsFont(){
+        return SairaStencilMedium().withPointHeight(10.f);
+    }
+private:
+    static juce::FontOptions SairaStencilMedium();
 };
 }  // namespace tremolo

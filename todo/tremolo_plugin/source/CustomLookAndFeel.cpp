@@ -43,7 +43,19 @@ namespace tremolo {
       //g.setColour(juce::Colour{0xFF042D4E});
         g.setColour(juce::Colour{0xFF000000});
         g.drawRoundedRectangle(outlineBounds.toFloat(),4.f,2.f);
-        g.drawText(button.getButtonText(),bounds,juce::Justification::centred, true);
+
+        // g.setFont(juce::FontOptions{
+        //     juce::Typeface::createSystemTypefaceFor(assets::SairaStencil_CondensedMedium_ttf, assets::SairaStencil_CondensedMedium_ttfSize)
+        // }.withPointHeight(12.f));
+        g.setFont(SairaStencilMedium().withPointHeight(12.f));
+        DBG(g.getCurrentFont().getTypefacePtr()->getName());
+        g.drawText(button.getButtonText(),bounds,juce::Justification::centred, false);
+
+    }
+
+    juce::FontOptions CustomLookAndFeel::SairaStencilMedium(){
+            static const auto result = juce::Typeface::createSystemTypefaceFor(assets::SairaStencil_CondensedMedium_ttf, assets::SairaStencil_CondensedMedium_ttfSize);
+            return juce::FontOptions{result};
     }
 
 }  // namespace tremolo

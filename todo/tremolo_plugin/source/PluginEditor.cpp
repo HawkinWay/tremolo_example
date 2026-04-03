@@ -19,12 +19,14 @@ PluginEditor::PluginEditor(PluginProcessor& p) :
   /* addAndMakeVisible(logo2);
      addAndMakeVisible(logo3);*/
 
+  waveformLabel.setFont(lookAndFeel.getSideLabelsFont());
   addAndMakeVisible(waveformLabel);
 
   waveformComboBox.addItemList(p.getParameterRefs().waveform.choices, 1);
   waveformAttachment.sendInitialUpdate();
   addAndMakeVisible(waveformComboBox);
 
+  rateLabel.setFont(lookAndFeel.getSideLabelsFont());
   rateLabel.setInterceptsMouseClicks(false,false);
   addAndMakeVisible(rateLabel);
 
@@ -36,7 +38,7 @@ PluginEditor::PluginEditor(PluginProcessor& p) :
   rateSlider.setTextValueSuffix("Hz");
   addAndMakeVisible(rateSlider);
 
-
+  bypassLabel.setFont(lookAndFeel.getSideLabelsFont());
   addAndMakeVisible(bypassLabel);
 
   bypassButton.onClick = [this]() {
@@ -45,6 +47,7 @@ PluginEditor::PluginEditor(PluginProcessor& p) :
   bypassButton.onClick();
   addAndMakeVisible(bypassButton);
 
+    depthLabel.setFont(lookAndFeel.getSideLabelsFont());
     depthLabel.setInterceptsMouseClicks(false,false);
     addAndMakeVisible(depthLabel);
 
@@ -53,6 +56,7 @@ PluginEditor::PluginEditor(PluginProcessor& p) :
     depthSlider.setPopupDisplayEnabled(true, true, this);
     addAndMakeVisible(depthSlider);
 
+  widthLabel.setFont(lookAndFeel.getSideLabelsFont());
   addAndMakeVisible(widthLabel);
 
   lfoCurveWidthSlider.setRange(0,10,1);
