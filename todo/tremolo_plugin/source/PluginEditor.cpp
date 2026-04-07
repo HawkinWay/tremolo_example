@@ -97,7 +97,7 @@ void PluginEditor::resized() {
   rateSliderBounds.removeFromLeft(180);
   rateSliderBounds.removeFromRight(280);
   rateSliderBounds.removeFromTop(40);
-  rateSliderBounds.removeFromBottom(150);
+  rateSliderBounds.removeFromBottom(180);
   rateSlider.setBounds(rateSliderBounds);
 
   rateLabel.setJustificationType(juce::Justification::centred);
@@ -118,7 +118,7 @@ void PluginEditor::resized() {
     depthSliderBounds.removeFromLeft(280);
     depthSliderBounds.removeFromRight(180);
     depthSliderBounds.removeFromTop(40);
-    depthSliderBounds.removeFromBottom(150);
+    depthSliderBounds.removeFromBottom(180);
     depthSlider.setBounds(depthSliderBounds);
 
     depthLabel.setJustificationType(juce::Justification::centred);
