@@ -50,7 +50,36 @@ namespace tremolo {
         g.setFont(SairaStencilMedium().withPointHeight(12.f));
         DBG(g.getCurrentFont().getTypefacePtr()->getName());
         g.drawText(button.getButtonText(),bounds,juce::Justification::centred, false);
+    }
 
+    void CustomLookAndFeel::drawRotarySlider(juce::Graphics& g,
+                      int x, int y, int width, int height,
+                      float sliderPosProportional, float rotaryStartAngle,
+                      float rotaryEndAngle, juce::Slider&) {
+        auto bounds = juce::Rectangle{x,y,width,height}.toFloat().reduced(3.75f);
+        g.setColour(juce::Colour{0xFF2A3A3B});
+        g.fillEllipse(bounds);
+
+        auto toAngle = rotaryStartAngle + sliderPosProportional * (rotaryEndAngle - rotaryStartAngle);
+
+        juce::Path valueArc;
+        valueArc.addPieSegment(bounds.reduced(0.25f), rotaryStartAngle,
+                                toAngle,0.f);
+        g.setColour(juce::Colours::pink);
+        g.fillPath(valueArc);
+
+        // 5.13. Assignment 2
+        auto bounds2 = juce::Rectangle{x,y,width,height}.toFloat().reduced(8.f);
+        auto bounds2Gradient = juce::ColourGradient::vertical(juce::Colour{0xFF324358},
+                                                        juce::Colour{0xFF1A2634}, bounds2);
+        g.setGradientFill(bounds2Gradient);
+        g.fillEllipse(bounds2);
+
+        auto bounds3 = juce::Rectangle{x,y,width,height}.toFloat().reduced(15.f);
+        auto bounds3Gradient = juce::ColourGradient::vertical(juce::Colour{0xFF5A7A9A},
+                                                        juce::Colour{0xFF334471}, bounds3);
+        g.setGradientFill(bounds3Gradient);
+        g.fillEllipse(bounds3);
     }
 
     juce::FontOptions CustomLookAndFeel::SairaStencilMedium(){
