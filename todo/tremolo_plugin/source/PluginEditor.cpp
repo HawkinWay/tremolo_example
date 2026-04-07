@@ -26,10 +26,6 @@ PluginEditor::PluginEditor(PluginProcessor& p) :
   waveformAttachment.sendInitialUpdate();
   addAndMakeVisible(waveformComboBox);
 
-  rateLabel.setFont(lookAndFeel.getSideLabelsFont());
-  rateLabel.setInterceptsMouseClicks(false,false);
-  addAndMakeVisible(rateLabel);
-
   rateSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
   rateSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0 ,0);
   rateSlider.setPopupDisplayEnabled(true, true, this);
@@ -37,6 +33,10 @@ PluginEditor::PluginEditor(PluginProcessor& p) :
 //rateSlider.onValueChange = [this](){DBG("rateSlider value: " << rateSlider.getValue());};
   rateSlider.setTextValueSuffix("Hz");
   addAndMakeVisible(rateSlider);
+
+  rateLabel.setFont(lookAndFeel.getSideLabelsFont());
+  rateLabel.setInterceptsMouseClicks(false,false);
+  addAndMakeVisible(rateLabel);
 
   bypassLabel.setFont(lookAndFeel.getSideLabelsFont());
   addAndMakeVisible(bypassLabel);
@@ -47,14 +47,14 @@ PluginEditor::PluginEditor(PluginProcessor& p) :
   bypassButton.onClick();
   addAndMakeVisible(bypassButton);
 
-    depthLabel.setFont(lookAndFeel.getSideLabelsFont());
-    depthLabel.setInterceptsMouseClicks(false,false);
-    addAndMakeVisible(depthLabel);
-
     depthSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
     depthSlider.setTextBoxStyle(juce::Slider::NoTextBox, false,0,0);
     depthSlider.setPopupDisplayEnabled(true, true, this);
     addAndMakeVisible(depthSlider);
+
+    depthLabel.setFont(lookAndFeel.getSideLabelsFont());
+    depthLabel.setInterceptsMouseClicks(false,false);
+    addAndMakeVisible(depthLabel);
 
   widthLabel.setFont(lookAndFeel.getSideLabelsFont());
   addAndMakeVisible(widthLabel);
