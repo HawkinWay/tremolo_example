@@ -36,6 +36,7 @@ PluginEditor::PluginEditor(PluginProcessor& p) :
 
   rateLabel.setFont(lookAndFeel.getSideLabelsFont());
   rateLabel.setInterceptsMouseClicks(false,false);
+  rateLabel.setColour(juce::Label::textColourId, CustomLookAndFeel::getColour(CustomLookAndFeel::Colours::PaleBlue));
   addAndMakeVisible(rateLabel);
 
   bypassLabel.setFont(lookAndFeel.getSideLabelsFont());
@@ -54,6 +55,8 @@ PluginEditor::PluginEditor(PluginProcessor& p) :
 
     depthLabel.setFont(lookAndFeel.getSideLabelsFont());
     depthLabel.setInterceptsMouseClicks(false,false);
+    depthLabel.setColour(juce::Label::textColourId, CustomLookAndFeel::getColour(CustomLookAndFeel::Colours::PaleBlue));
+
     addAndMakeVisible(depthLabel);
 
   widthLabel.setFont(lookAndFeel.getSideLabelsFont());

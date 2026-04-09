@@ -1,4 +1,18 @@
 namespace tremolo {
+    CustomLookAndFeel::CustomLookAndFeel() {
+        setColour(juce::PopupMenu::backgroundColourId,juce::Colour{0xFF153245});
+        setColour(juce::PopupMenu::textColourId,getColour(Colours::PaleBlue));
+        setColour(juce::PopupMenu::highlightedBackgroundColourId,getColour(Colours::LightPink));
+        setColour(juce::PopupMenu::highlightedTextColourId,juce::Colours::black);
+        setColour(juce::ComboBox::textColourId,getColour(Colours::PaleBlue));
+        setColour(juce::Label::textColourId,getColour(Colours::PaleBlue));
+    }
+
+    juce::Colour CustomLookAndFeel::getColour(Colours colourName) {
+        static const std::array colours{juce::Colour{0xFFDDECFF}, juce::Colours::lightpink};
+        return colours.at(juce::toUnderlyingType(colourName));
+    }
+
     void CustomLookAndFeel::drawToggleButton(juce::Graphics &g,
                                                  juce::ToggleButton & button,
                                                  bool shouldDrawButtonAsHighlighted,
@@ -36,7 +50,7 @@ namespace tremolo {
                 buttonGradient.addColour(0.73,juce::Colour{0xFF315160});
                 g.setGradientFill(buttonGradient);
                 g.fillRoundedRectangle(bounds.toFloat(),4.f);
-                g.setColour(juce::Colour{0xFFDDECFF});
+                g.setColour(getColour(Colours::PaleBlue));
             }
         }
         const auto outlineBounds = button.getLocalBounds().reduced(2);
