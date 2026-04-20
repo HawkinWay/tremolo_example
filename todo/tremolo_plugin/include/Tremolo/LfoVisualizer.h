@@ -33,40 +33,48 @@ public:
         //     sine.lineTo(i,halfHeight + amplitude * std::sin(0.1 * i));
         */
         g.setColour((juce::Colours::lightpink));
-        if (lfoToSet == LfoWaveform::sine) {
-            g.strokePath(sine,juce::PathStrokeType{strokeWidth});
-        }
-        else if (lfoToSet == LfoWaveform::triangle) {
-            g.strokePath(triangle,juce::PathStrokeType{strokeWidth});
-        }
-        else if (lfoToSet == LfoWaveform::square) {
-            g.strokePath(square,juce::PathStrokeType{strokeWidth});
-        }
-        else if (lfoToSet == LfoWaveform::sawtooth) {
-            g.strokePath(sawtooth, juce::PathStrokeType{strokeWidth});
+        // if (lfoToSet == LfoWaveform::sine) {
+        //     g.strokePath(lfosPath[0],juce::PathStrokeType{strokeWidth});
+        // }
+        // else if (lfoToSet == LfoWaveform::triangle) {
+        //     g.strokePath(lfosPath[1],juce::PathStrokeType{strokeWidth});
+        // }
+        // else if (lfoToSet == LfoWaveform::square) {
+        //     g.strokePath(lfosPath[2],juce::PathStrokeType{strokeWidth});
+        // }
+        // else if (lfoToSet == LfoWaveform::sawtooth) {
+        //     g.strokePath(lfosPath[3], juce::PathStrokeType{strokeWidth});
+        // }
+        auto idx = static_cast<size_t>(lfoToSet);
+        if (idx < lfosPath.size()) {
+            g.strokePath(lfosPath[idx], juce::PathStrokeType{strokeWidth});
         }
     }
 
     void resized() override {
-        sine.clear();
-        triangle.clear();
-        square.clear();
+        for (auto &lfo : lfosPath) {
+            lfo.clear();
+        }
         const auto halfHeight = getHeight() / 2;
         const auto amplitude = halfHeight - (strokeWidth / 2.f);
         const auto extra = getWidth();
 
-        sine.startNewSubPath(-extra, halfHeight + amplitude * std::sin(0.1 * (-extra)));
-        triangle.startNewSubPath(-extra, halfHeight + amplitude * Tremolo::triangle(0.1 * (-extra)));
-        square.startNewSubPath(-extra, halfHeight + amplitude * Tremolo::square(0.1 * (-extra)));
-        sawtooth.startNewSubPath(-extra, halfHeight + amplitude * Tremolo::sawtooth(0.1 * (-extra)));
-
-
+        // sine.startNewSubPath(-extra, halfHeight + amplitude * std::sin(0.1 * (-extra)));
+        // triangle.startNewSubPath(-extra, halfHeight + amplitude * Tremolo::triangle(0.1 * (-extra)));
+        // square.startNewSubPath(-extra, halfHeight + amplitude * Tremolo::square(0.1 * (-extra)));
+        // sawtooth.startNewSubPath(-extra, halfHeight + amplitude * Tremolo::sawtooth(0.1 * (-extra)));
+        for (auto i = 0; i < lfosPath.size(); i++) {
+            lfosPath[i].startNewSubPath(-extra, halfHeight + amplitude * waveFunctions[i](0.1 * (-extra)));
+        }
 
         for (const auto i : std::views::iota(1 - extra, getWidth() + extra)) {
-            sine.lineTo(i, halfHeight + amplitude * std::sin(0.1 * i));
-            triangle.lineTo(i, halfHeight + amplitude * Tremolo::triangle(0.1 * i));
-            square.lineTo(i, halfHeight + amplitude * Tremolo::square(0.1 * i));
-            sawtooth.lineTo(i, halfHeight + amplitude * Tremolo::sawtooth(0.1 * i));
+            // sine.lineTo(i, halfHeight + amplitude * std::sin(0.1 * i));
+            // triangle.lineTo(i, halfHeight + amplitude * Tremolo::triangle(0.1 * i));
+            // square.lineTo(i, halfHeight + amplitude * Tremolo::square(0.1 * i));
+            // sawtooth.lineTo(i, halfHeight + amplitude * Tremolo::sawtooth(0.1 * i));
+            for (auto j = 0; j < lfosPath.size(); j++) {
+                lfosPath[j].lineTo(i, halfHeight + amplitude * waveFunctions[j](0.1 * i));
+            }
         }
     }
 
@@ -75,10 +83,24 @@ public:
     }
 
 private:
-    juce::Path sine;
-    juce::Path triangle;
-    juce::Path square;
-    juce::Path sawtooth;
+    using waveformFunc = float(*)(float);
+
+    // ERROR!!
+    // std::array<juce::Path, 4u> lfosPath{
+    //     juce::Path sine,
+    //     juce::Path triangle,
+    //     juce::Path square,
+    //     juce::Path sawtooth,
+    // }；
+
+    std::array<juce::Path, 4u> lfosPath;
+
+    const std::array<waveformFunc, 4u> waveFunctions{
+        std::sin,
+        Tremolo::triangle,
+        Tremolo::square,
+        Tremolo::sawtooth,
+    };
 
     float strokeWidth = 4.f;
     LfoWaveform currentLfo = LfoWaveform::sine;
