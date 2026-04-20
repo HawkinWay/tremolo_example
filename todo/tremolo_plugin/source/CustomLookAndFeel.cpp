@@ -17,6 +17,7 @@ namespace tremolo {
                                                  juce::ToggleButton & button,
                                                  bool shouldDrawButtonAsHighlighted,
                                                  bool shouldDrawButtonAsDown) {
+        juce::ignoreUnused (shouldDrawButtonAsDown);
         const auto bounds = button.getLocalBounds().reduced(2);
 
         if (button.getToggleState()) {

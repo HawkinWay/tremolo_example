@@ -45,17 +45,17 @@ public:
         const auto amplitude = halfHeight - (strokeWidth / 2.f);
         const auto extra = getWidth();
 
-        sine.startNewSubPath(-extra, halfHeight + amplitude * std::sin(0.1 * (-extra)));
-        triangle.startNewSubPath(-extra, halfHeight + amplitude * Tremolo::triangle(0.1 * (-extra)));
+        sine.startNewSubPath(-extra, halfHeight + (amplitude * std::sin(0.1f * (-extra))));
+        triangle.startNewSubPath(-extra, halfHeight + (amplitude * Tremolo::triangle(0.1f * (-extra))));
 
         for (const auto i : std::views::iota(1 - extra, getWidth() + extra)) {
-            sine.lineTo(i, halfHeight + amplitude * std::sin(0.1 * i));
-            triangle.lineTo(i, halfHeight + amplitude * Tremolo::triangle(0.1 * i));
+            sine.lineTo(i, halfHeight + (amplitude * std::sin(0.1f * i)));
+            triangle.lineTo(i, halfHeight + (amplitude * Tremolo::triangle(0.1f * i)));
         }
     }
 
-    void setStrokeWidth(float strokeWidth) {
-        this->strokeWidth = strokeWidth;
+    void setStrokeWidth(float StrokeWidth) {
+        strokeWidth = StrokeWidth;
     }
 
 private:

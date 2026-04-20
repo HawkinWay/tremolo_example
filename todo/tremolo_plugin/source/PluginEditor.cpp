@@ -3,8 +3,8 @@ PluginEditor::PluginEditor(PluginProcessor& p) :
   AudioProcessorEditor(&p),
   waveformAttachment{p.getParameterRefs().waveform, waveformComboBox},
   rateAttachment{p.getParameterRefs().rate, rateSlider},
-  depthAttachment{p.getParameterRefs().modulationDepth, depthSlider},
-  bypassAttachment{p.getParameterRefs().bypassed, bypassButton}{
+  bypassAttachment{p.getParameterRefs().bypassed, bypassButton},
+  depthAttachment{p.getParameterRefs().modulationDepth, depthSlider}{
   background.setImage(juce::ImageCache::getFromMemory(assets::Background_png, assets::Background_pngSize));
 
   logo.setImage(juce::ImageCache::getFromMemory(assets::Logo_png, assets::Logo_pngSize));
@@ -23,7 +23,16 @@ PluginEditor::PluginEditor(PluginProcessor& p) :
   addAndMakeVisible(waveformLabel);
 
   waveformComboBox.addItemList(p.getParameterRefs().waveform.choices, 1);
+  waveformComboBox.onChange = [this]() {
+    auto selectedId = waveformComboBox.getSelectedItemIndex();
+    auto waveform = (selectedId == 0) ? LfoVisualizer::LfoWaveform::sine
+                                      : LfoVisualizer::LfoWaveform::triangle;
+
+    lfoVisualizer.setLfoWaveform(waveform);
+    lfoVisualizer.repaint();
+  };
   waveformAttachment.sendInitialUpdate();
+  waveformComboBox.onChange();
   addAndMakeVisible(waveformComboBox);
 
   rateSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
