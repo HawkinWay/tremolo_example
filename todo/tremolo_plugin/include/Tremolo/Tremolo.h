@@ -7,6 +7,7 @@ public:
     sine = 0,
     triangle = 1,
     square = 2,
+    sawtooth = 3,
   };
 
   Tremolo() {
@@ -33,7 +34,8 @@ public:
   }
 
   void setLfoWaveform(LfoWaveform waveform) {
-    jassert(waveform == LfoWaveform::sine || waveform == LfoWaveform::triangle);
+    jassert(waveform == LfoWaveform::sine || waveform == LfoWaveform::triangle ||
+            waveform == LfoWaveform::square || waveform == LfoWaveform::sawtooth);
     lfoToSet = waveform;
   }
 
@@ -90,14 +92,21 @@ public:
     const auto normalizedPhase = ft - std::floor(ft);
     return (normalizedPhase < 0.5f) ? 1.f : -1.f;
   }
-  
+
+  static float sawtooth(float phase) {
+    const auto ft = phase / juce::MathConstants<float>::twoPi;
+    const auto normalizedPhase = ft - std::floor(ft);
+    return 2.f * normalizedPhase - 1.f;
+  }
+
 private:
   // You should put class members and private functions here
 
-  std::array<juce::dsp::Oscillator<float>, 3u> lfos{
+  std::array<juce::dsp::Oscillator<float>, 4u> lfos{
     juce::dsp::Oscillator<float>{ [](auto phase){ return std::sin(phase); }},
     juce::dsp::Oscillator<float>{ triangle },
-    juce::dsp::Oscillator<float>{ square }
+    juce::dsp::Oscillator<float>{ square },
+    juce::dsp::Oscillator<float>{ sawtooth },
   };
 
   void updateLfoWaveform() {
@@ -119,6 +128,7 @@ private:
     const auto sineValue = lfos[0].processSample(0.f);
     const auto triangleValue = lfos[1].processSample(0.f);
     const auto squareValue = lfos[2].processSample(0.f);
+    const auto sawtoothValue = lfos[3].processSample(0.f);
 
     const auto waveformMix = smoothWaveform.getNextValue();
 

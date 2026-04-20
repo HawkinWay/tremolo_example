@@ -5,10 +5,12 @@ public:
         sine = 0,
         triangle = 1,
         square = 2,
+        sawtooth = 3,
     };
 
     void setLfoWaveform(LfoWaveform lfoWaveform) {
-        jassert(lfoWaveform == LfoWaveform::sine || lfoWaveform == LfoWaveform::triangle);
+        jassert(lfoWaveform == LfoWaveform::sine || lfoWaveform == LfoWaveform::triangle ||
+            lfoWaveform == LfoWaveform::square || lfoWaveform == LfoWaveform::sawtooth);
         lfoToSet = lfoWaveform;
     }
 
@@ -40,6 +42,9 @@ public:
         else if (lfoToSet == LfoWaveform::square) {
             g.strokePath(square,juce::PathStrokeType{strokeWidth});
         }
+        else if (lfoToSet == LfoWaveform::sawtooth) {
+            g.strokePath(sawtooth, juce::PathStrokeType{strokeWidth});
+        }
     }
 
     void resized() override {
@@ -53,12 +58,15 @@ public:
         sine.startNewSubPath(-extra, halfHeight + amplitude * std::sin(0.1 * (-extra)));
         triangle.startNewSubPath(-extra, halfHeight + amplitude * Tremolo::triangle(0.1 * (-extra)));
         square.startNewSubPath(-extra, halfHeight + amplitude * Tremolo::square(0.1 * (-extra)));
+        sawtooth.startNewSubPath(-extra, halfHeight + amplitude * Tremolo::sawtooth(0.1 * (-extra)));
+
 
 
         for (const auto i : std::views::iota(1 - extra, getWidth() + extra)) {
             sine.lineTo(i, halfHeight + amplitude * std::sin(0.1 * i));
             triangle.lineTo(i, halfHeight + amplitude * Tremolo::triangle(0.1 * i));
             square.lineTo(i, halfHeight + amplitude * Tremolo::square(0.1 * i));
+            sawtooth.lineTo(i, halfHeight + amplitude * Tremolo::sawtooth(0.1 * i));
         }
     }
 
@@ -70,6 +78,7 @@ private:
     juce::Path sine;
     juce::Path triangle;
     juce::Path square;
+    juce::Path sawtooth;
 
     float strokeWidth = 4.f;
     LfoWaveform currentLfo = LfoWaveform::sine;
