@@ -24,6 +24,12 @@ PluginEditor::PluginEditor(PluginProcessor& p) :
 
   waveformComboBox.addItemList(p.getParameterRefs().waveform.choices, 1);
   waveformAttachment.sendInitialUpdate();
+  waveformComboBox.onChange = [this] {
+    const auto idx = waveformComboBox.getSelectedItemIndex();
+    lfoVisualizer.setLfoWaveform(static_cast<LfoVisualizer::LfoWaveform>(idx));
+    lfoVisualizer.repaint();
+  };
+  waveformComboBox.onChange();
   addAndMakeVisible(waveformComboBox);
 
   rateSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);

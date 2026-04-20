@@ -73,7 +73,7 @@ namespace tremolo {
       auto parameter = std::make_unique<juce::AudioParameterChoice>(
         juce::ParameterID{"modulation.waveform", versionHint},
         "Modulation waveform",
-        juce::StringArray{"Sine", "Triangle"},
+        juce::StringArray{"Sine", "Triangle", "Square"},
         0
         );
       return addParameterToProcessor(processor, std::move(parameter));

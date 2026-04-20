@@ -6,6 +6,7 @@ public:
   enum class LfoWaveform : size_t {
     sine = 0,
     triangle = 1,
+    square = 2,
   };
 
   Tremolo() {
@@ -84,12 +85,19 @@ public:
     return 4.f * std::abs(ft - std::floor(ft + 0.5f)) - 1.f;
   }
 
+  static float square(float phase) {
+    const auto ft = phase / juce::MathConstants<float>::twoPi;
+    const auto normalizedPhase = ft - std::floor(ft);
+    return (normalizedPhase < 0.5f) ? 1.f : -1.f;
+  }
+  
 private:
   // You should put class members and private functions here
 
-  std::array<juce::dsp::Oscillator<float>, 2u> lfos{
+  std::array<juce::dsp::Oscillator<float>, 3u> lfos{
     juce::dsp::Oscillator<float>{ [](auto phase){ return std::sin(phase); }},
     juce::dsp::Oscillator<float>{ triangle },
+    juce::dsp::Oscillator<float>{ square }
   };
 
   void updateLfoWaveform() {
@@ -110,6 +118,7 @@ private:
   float getNextLfoValue() {
     const auto sineValue = lfos[0].processSample(0.f);
     const auto triangleValue = lfos[1].processSample(0.f);
+    const auto squareValue = lfos[2].processSample(0.f);
 
     const auto waveformMix = smoothWaveform.getNextValue();
 
